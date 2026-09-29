@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1
+
+- Fix: extraction failed in Zotero 9 because the plugin called a temp-directory function that does not exist. Now uses `Zotero.getTempDirectory()`.
+- Verified end to end in Zotero 9.0.6 against a live figure-extractor container.
+
 ## 0.1.0
 
 - First release.
