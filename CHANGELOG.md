@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add `backend/figure_server.py`, a caption-anchored PyMuPDF extractor with the same API as the pdffigures2 service. It fixes truncated and missing figures and renders at 400 dpi. Tables and missed figures fall back to pdffigures2.
+
 ## 0.1.1
 
 - Fix: extraction failed in Zotero 9 because the plugin called a temp-directory function that does not exist. Now uses `Zotero.getTempDirectory()`.

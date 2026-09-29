@@ -44,6 +44,19 @@ You should see `"service":"figure-extractor"` and `"status":"healthy"`. Stop it 
 
 The backend is a separate project with its own license and its own maintainers. This plugin does not bundle it. The plugin expects these endpoints: `GET /health`, `POST /extract` (multipart field `file`) and `GET /download/<filename>`.
 
+## Better crops: the caption-anchored backend
+
+pdffigures2 sometimes clips a figure to one panel or misses figures entirely, especially in PDFs that embed figures as raster images. `backend/figure_server.py` is a drop-in alternative that speaks the same API. It finds each "Figure N" caption, gathers the images, drawings and axis labels beside it, and renders the whole region at 400 dpi with PyMuPDF. Tables, and any figure it cannot find, are taken from a pdffigures2 service when one is running on port 5001.
+
+```bash
+pip install -r backend/requirements.txt
+python3 backend/figure_server.py --port 5002
+```
+
+Then set the extractor service URL in the plugin preferences to `http://localhost:5002`. No Docker is needed for figures alone. Set `FIGURE_DPI` to change the resolution and `PDFFIGURES2_URL` to point at a different table service.
+
+Layouts where the caption sits inside the figure (some Nature journals) come out with the caption text included in the image. Cropping is heuristic, so spot-check unusual layouts.
+
 ## Preferences
 
 Open Settings (Preferences on macOS) and choose **Figure Extract**.
