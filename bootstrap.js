@@ -26,6 +26,7 @@ async function startup({ id, version, rootURI: root }) {
   Services.scriptloader.loadSubScript(root + "content/figure-extract.js", ctx);
   FigureExtract = ctx.FigureExtract;
   FigureExtract.init({ id, version, rootURI: root });
+  Zotero.FigureExtract = FigureExtract; // lets scripts (Tools > Developer > Run JavaScript) drive extraction
   for (const win of Zotero.getMainWindows()) {
     FigureExtract.addToWindow(win);
   }
@@ -49,5 +50,6 @@ function shutdown() {
   if (prefsPaneID && Zotero.PreferencePanes.unregister) {
     try { Zotero.PreferencePanes.unregister(prefsPaneID); } catch (e) {}
   }
+  delete Zotero.FigureExtract;
   FigureExtract = undefined;
 }
