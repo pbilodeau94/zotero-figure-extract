@@ -1,0 +1,15 @@
+<vbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+      xmlns:html="http://www.w3.org/1999/xhtml"
+      id="zotero-prefpane-figure-extract">
+  <groupbox>
+    <label><html:h2>Figure Extract</html:h2></label>
+    <label value="Extractor service URL"/>
+    <html:input type="text" style="width: 22em"
+                preference="extensions.zotero.figureExtract.serverUrl"/>
+    <description>Address of the figure-extractor service, for example http://localhost:5001</description>
+    <checkbox label="Also store the caption JSON as an attachment"
+              preference="extensions.zotero.figureExtract.storeCaptionJson"/>
+    <checkbox label="Tag the parent item with figures-extracted"
+              preference="extensions.zotero.figureExtract.tagParent"/>
+  </groupbox>
+</vbox>

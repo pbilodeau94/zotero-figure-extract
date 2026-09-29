@@ -1,0 +1,29 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check tag matches manifest version
+        run: |
+          v=$(python3 -c 'import json;print(json.load(open("manifest.json"))["version"])')
+          if [ "v$v" != "${GITHUB_REF_NAME}" ]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match manifest version $v" >&2
+            exit 1
+          fi
+      - name: Build xpi
+        run: ./scripts/build-xpi.sh
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.xpi
+          generate_release_notes: true
