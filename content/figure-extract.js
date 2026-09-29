@@ -256,7 +256,7 @@ var FigureExtract = {
   async processOne(win, target, baseUrl, progress) {
     const { parent, pdf } = target;
     const tmpDir = PathUtils.join(
-      Zotero.getTempDirectoryPath(),
+      this.tempRoot(),
       "figure-extract-" + Zotero.Utilities.randomString(8)
     );
     await IOUtils.makeDirectory(tmpDir, { createAncestors: true });
@@ -365,6 +365,14 @@ var FigureExtract = {
   },
 
   // ---------- helpers ----------
+
+  tempRoot() {
+    try {
+      return Zotero.getTempDirectory().path;
+    } catch (e) {
+      return PathUtils.tempDir;
+    }
+  },
 
   boolPref(name) {
     const v = Zotero.Prefs.get(this.PREF_PREFIX + name);
